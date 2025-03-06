@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 
 export type MessageType = {
@@ -40,28 +39,6 @@ interface ChatContextType {
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
-// Generate a response based on the user's message
-const generateResponse = async (userMessage: string): Promise<string> => {
-  // Simulate AI thinking time
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  
-  // Simple responses for demo purposes
-  const responses = [
-    "I understand what you're saying. Can you tell me more?",
-    "That's interesting. Let me think about that for a moment.",
-    "I appreciate your input. Here's what I think about that...",
-    "Thanks for sharing. From my perspective, I see it differently because...",
-    "I've processed your message and have some thoughts to share.",
-    "That's a fascinating point. Let me respond with some relevant information.",
-    "I see what you mean. Let me offer a different perspective.",
-    "Based on what you've told me, I would suggest considering the following...",
-    "I've analyzed your message and here's my response.",
-    "That's a great question. Let me provide you with a detailed answer."
-  ];
-  
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [messages, setMessages] = useState<MessageType[]>([
     {
@@ -88,22 +65,25 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
-        const responseText = await  fetch("https://openrouter.ai/api/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    "Authorization": "Bearer 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",
- // Optional. Site title for rankings on openrouter.ai.
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    "model": model,
-    "messages": [
-      {
-        "role": "user",
-        "content":    content }
-    ]
-  })
-});
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer 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",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": model,
+            "messages": [
+              {
+                "role": "user",
+                "content": content
+              }
+            ]
+          })
+        });
+        
+        const data = await response.json();
+        const responseText = data.choices?.[0]?.message?.content || "Sorry, I couldn't process that request.";
         
         setTimeout(() => {
           const aiResponse: MessageType = {
@@ -117,6 +97,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }, 500);
       } catch (error) {
         console.error('Error generating response:', error);
+        const errorMessage: MessageType = {
+          id: (Date.now() + 1).toString(),
+          content: "Sorry, there was an error processing your request. Please try again later.",
+          sender: 'ai',
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, errorMessage]);
         setIsLoading(false);
       }
     }
