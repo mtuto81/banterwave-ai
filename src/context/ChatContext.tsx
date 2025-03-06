@@ -16,8 +16,8 @@ export type ModelType = {
 // Available models
 const AVAILABLE_MODELS: ModelType[] = [
   {
-    id: 'gpt-4o-mini',
-    name: 'GPT-4o Mini',
+    id: 'mistral-small-24b-2501:free',
+    name: 'mistral-small',
     description: 'Fast and efficient model for general queries'
   },
   {
