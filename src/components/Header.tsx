@@ -4,12 +4,15 @@ import { useChat } from '@/context/ChatContext';
 import { RotateCcw } from 'lucide-react';
 
 const Header: React.FC = () => {
-  const { resetChat } = useChat();
+  const { resetChat, selectedModel } = useChat();
   
   return (
     <header className="w-full glass-panel backdrop-blur-md sticky top-0 z-10 py-4 px-6 mb-6 flex items-center justify-between shadow-sm">
       <div className="flex items-center space-x-3">
         <h1 className="text-xl font-medium">AI Chat</h1>
+        <span className="text-xs bg-primary/10 text-primary-foreground/80 px-2 py-0.5 rounded-full">
+          {selectedModel.name}
+        </span>
       </div>
       
       <button

@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/context/ChatContext';
 import { cn } from '@/lib/utils';
 import { Send } from 'lucide-react';
+import ModelSelector from './ModelSelector';
 
 const ChatInput: React.FC = () => {
   const [message, setMessage] = useState('');
@@ -55,20 +56,23 @@ const ChatInput: React.FC = () => {
           disabled={isLoading}
           rows={1}
         />
-        <button
-          ref={sendButtonRef}
-          type="submit"
-          disabled={message.trim() === '' || isLoading}
-          className={cn(
-            "p-3 rounded-full m-1.5 transition-all duration-200 ease-out",
-            message.trim() !== '' && !isLoading
-              ? "bg-primary/90 hover:bg-primary text-primary-foreground opacity-100"
-              : "bg-secondary/50 text-secondary-foreground/50 cursor-not-allowed opacity-70"
-          )}
-          aria-label="Send message"
-        >
-          <Send size={18} className="transition-transform duration-200" />
-        </button>
+        <div className="flex items-center mr-1">
+          <ModelSelector />
+          <button
+            ref={sendButtonRef}
+            type="submit"
+            disabled={message.trim() === '' || isLoading}
+            className={cn(
+              "p-3 rounded-full m-1.5 transition-all duration-200 ease-out",
+              message.trim() !== '' && !isLoading
+                ? "bg-primary/90 hover:bg-primary text-primary-foreground opacity-100"
+                : "bg-secondary/50 text-secondary-foreground/50 cursor-not-allowed opacity-70"
+            )}
+            aria-label="Send message"
+          >
+            <Send size={18} className="transition-transform duration-200" />
+          </button>
+        </div>
       </div>
     </form>
   );

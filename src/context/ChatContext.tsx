@@ -8,11 +8,34 @@ export type MessageType = {
   timestamp: Date;
 };
 
+export type ModelType = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+// Available models
+const AVAILABLE_MODELS: ModelType[] = [
+  {
+    id: 'gpt-4o-mini',
+    name: 'GPT-4o Mini',
+    description: 'Fast and efficient model for general queries'
+  },
+  {
+    id: 'gpt-4o',
+    name: 'GPT-4o',
+    description: 'More powerful model with advanced reasoning capabilities'
+  }
+];
+
 interface ChatContextType {
   messages: MessageType[];
   addMessage: (content: string, sender: 'user' | 'ai') => void;
   isLoading: boolean;
   resetChat: () => void;
+  selectedModel: ModelType;
+  setSelectedModel: (model: ModelType) => void;
+  availableModels: ModelType[];
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -49,6 +72,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState<ModelType>(AVAILABLE_MODELS[0]);
   
   const addMessage = useCallback(async (content: string, sender: 'user' | 'ai') => {
     const newMessage: MessageType = {
@@ -99,6 +123,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     addMessage,
     isLoading,
     resetChat,
+    selectedModel,
+    setSelectedModel,
+    availableModels: AVAILABLE_MODELS,
   };
   
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
