@@ -27,7 +27,7 @@ const AVAILABLE_MODELS: ModelType[] = [
     description: 'More powerful model with advanced reasoning capabilities'
   }
 ];
-
+const model = "mistralai/mistral-small-24b-instruct-2501:free"
 interface ChatContextType {
   messages: MessageType[];
   addMessage: (content: string, sender: 'user' | 'ai') => void;
@@ -88,7 +88,22 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
-        const responseText = await generateResponse(content);
+        const responseText = await  fetch("https://openrouter.ai/api/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer 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",
+ // Optional. Site title for rankings on openrouter.ai.
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    "model": model,
+    "messages": [
+      {
+        "role": "user",
+        "content":    content }
+    ]
+  })
+});
         
         setTimeout(() => {
           const aiResponse: MessageType = {
