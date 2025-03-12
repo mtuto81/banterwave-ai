@@ -2,7 +2,7 @@
 import React from 'react';
 import { useChat } from '@/context/ChatContext';
 import { useAuth } from '@/context/AuthContext';
-import { RotateCcw, LogOut } from 'lucide-react';
+import { RotateCcw, LogOut, LogIn } from 'lucide-react';
 import ModelSelector from './ModelSelector';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +19,10 @@ const Header: React.FC = () => {
       title: "Signed out",
       description: "You have been signed out successfully"
     });
+    navigate('/auth');
+  };
+
+  const handleSignIn = () => {
     navigate('/auth');
   };
   
@@ -46,13 +50,21 @@ const Header: React.FC = () => {
           <RotateCcw size={18} className="text-foreground/80" />
         </button>
         
-        {user && (
+        {user ? (
           <button
             onClick={handleSignOut}
             className="p-2 rounded-full hover:bg-secondary/80 transition-colors duration-200"
             aria-label="Sign out"
           >
             <LogOut size={18} className="text-foreground/80" />
+          </button>
+        ) : (
+          <button
+            onClick={handleSignIn}
+            className="p-2 rounded-full hover:bg-secondary/80 transition-colors duration-200"
+            aria-label="Sign in"
+          >
+            <LogIn size={18} className="text-foreground/80" />
           </button>
         )}
       </div>
