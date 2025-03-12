@@ -27,7 +27,7 @@ const AVAILABLE_MODELS: ModelType[] = [
     description: 'More powerful model with advanced reasoning capabilities'
   }
 ];
-const model = "mistralai/mistral-small-24b-instruct-2501:free"
+const model = "qwen/qwq-32b:free"
 interface ChatContextType {
   messages: MessageType[];
   addMessage: (content: string, sender: 'user' | 'ai') => void;
