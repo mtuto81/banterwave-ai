@@ -60,7 +60,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     
     setMessages((prev) => [...prev, newMessage]);
-    
+    const apikey ="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"
     // If this is a user message, generate a response
     if (sender === 'user') {
       setIsLoading(true);
@@ -68,7 +68,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": `Bearer ${apikey}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
