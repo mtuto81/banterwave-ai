@@ -9,30 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Available_Models: {
-        Row: {
-          created_at: string
-          id: number
-          isavailabe: boolean
-          name: string | null
-          url: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          isavailabe: boolean
-          name?: string | null
-          url?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          isavailabe?: boolean
-          name?: string | null
-          url?: string | null
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 export type MessageType = {
@@ -84,7 +83,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
         
         const data = await response.json();
-        const responseText = data.choices[0].message.content || "Sorry, I couldn't process that request.";
+        const responseText = data.choices.[0].message.content || "Sorry, I couldn't process that request.";
         
         setTimeout(() => {
           const aiResponse: MessageType = {
