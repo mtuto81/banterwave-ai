@@ -69,9 +69,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(true);
       try {
         // API key for OpenRouter - Note: This is safe as it's a public API key intended for frontend use
-        const apiKey = "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";
+        const apiKey = "18eb228007994cf8ac758ee2733499bc";
         
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        const response = await fetch("https://api.aimlapi.com/v1", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${apiKey}`,
