@@ -99,7 +99,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error generating response:', error);
         const errorMessage: MessageType = {
           id: (Date.now() + 1).toString(),
-          content: "Sorry, there was an error processing your request. Please try again later.",
+          content: "Sorry, there was an error processing your request..",
           sender: 'ai',
           timestamp: new Date(),
         };
@@ -113,7 +113,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setMessages([
       {
         id: Date.now().toString(),
-        content: "Hello! I'm your AI assistant. How can I help you today?",
+        content: "Hello! I'm your AI assistant. ",
         sender: 'ai',
         timestamp: new Date(),
       },
