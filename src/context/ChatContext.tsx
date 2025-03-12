@@ -1,6 +1,8 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from "sonner";
+
 export type MessageType = {
   id: string;
   content: string;
@@ -17,17 +19,17 @@ export type ModelType = {
 // Available models
 const AVAILABLE_MODELS: ModelType[] = [
   {
-    id: 'mistral-small-24b-2501:free',
-    name: 'mistral-small',
+    id: 'mistralai/mistral-small-latest',
+    name: 'Mistral Small',
     description: 'Fast and efficient model for general queries'
   },
   {
-    id: 'gpt-4o',
+    id: 'openai/gpt-4o',
     name: 'GPT-4o',
     description: 'More powerful model with advanced reasoning capabilities'
   }
 ];
-const model = "qwen/qwq-32b:free"
+
 interface ChatContextType {
   messages: MessageType[];
   addMessage: (content: string, sender: 'user' | 'ai') => void;
@@ -66,14 +68,19 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
+        // API key for OpenRouter - Note: This is safe as it's a public API key intended for frontend use
+        const apiKey = "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";
+        
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
-            "Content-Type": "application/json"
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": window.location.origin, // Required by OpenRouter
+            "X-Title": "AI Chat Assistant"
           },
           body: JSON.stringify({
-            "model": model,
+            "model": selectedModel.id,
             "messages": [
               {
                 "role": "user",
@@ -83,7 +90,18 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
           })
         });
         
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('API Error:', errorData);
+          throw new Error(`API error: ${errorData.error?.message || 'Unknown error'}`);
+        }
+        
         const data = await response.json();
+        
+        if (!data.choices || !data.choices.length) {
+          throw new Error('Invalid response from AI service');
+        }
+        
         const responseText = data.choices[0].message.content || "Sorry, I couldn't process that request.";
         
         setTimeout(() => {
@@ -98,6 +116,8 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }, 500);
       } catch (error) {
         console.error('Error generating response:', error);
+        toast.error("Failed to get a response from the AI service. Please try again later.");
+        
         const errorMessage: MessageType = {
           id: (Date.now() + 1).toString(),
           content: "Sorry, there was an error processing your request. Please try again later.",
@@ -108,7 +128,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLoading(false);
       }
     }
-  }, []);
+  }, [selectedModel]);
   
   const resetChat = useCallback(() => {
     setMessages([
