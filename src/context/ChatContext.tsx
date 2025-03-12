@@ -60,7 +60,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     
     setMessages((prev) => [...prev, newMessage]);
-    const apikey ="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"
+    const apikey ="sk-dca3b28499d59c884399b43333b8bbaf7640916a100461b19e19e162b90d40c3"
     // If this is a user message, generate a response
     if (sender === 'user') {
       setIsLoading(true);
