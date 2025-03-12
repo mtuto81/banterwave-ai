@@ -68,7 +68,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": "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",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
