@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 export type MessageType = {
@@ -69,7 +68,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": "Bearer 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",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -84,7 +83,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
         
         const data = await response.json();
-        const responseText = data.choices[0].message.content || "Sorry, I couldn't process that request.";
+        const responseText = data.choices.[0].message.content || "Sorry, I couldn't process that request.";
         
         setTimeout(() => {
           const aiResponse: MessageType = {
