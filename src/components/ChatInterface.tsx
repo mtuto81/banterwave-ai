@@ -1,7 +1,6 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { useChat } from '@/context/ChatContext';
-import { useAuth } from '@/context/AuthContext';
 import { Menu, PanelRight } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 import LoadingDots from './LoadingDots';
@@ -12,7 +11,6 @@ import ContextWindow from './ContextWindow';
 
 const ChatInterface: React.FC = () => {
   const { messages, isLoading } = useChat();
-  const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [contextWindowOpen, setContextWindowOpen] = useState(false);
