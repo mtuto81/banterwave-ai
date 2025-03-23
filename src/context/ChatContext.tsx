@@ -69,9 +69,11 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const response = await fetch("http://localhost:11434/api/chat", {
           method: "POST",
           headers: {
-            // Optional. Site title for rankings on openrouter.ai.
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            // Remove mode and credentials which might cause CORS issues
           },
+          // Add mode cors to bypass strict origin policy
+          mode: "cors",
           body: JSON.stringify({
             "model": "llama3.2:1b",
             "messages": [
@@ -98,7 +100,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error generating response:', error);
         const errorMessage: MessageType = {
           id: (Date.now() + 1).toString(),
-          content: "Sorry, there was an error processing your request..",
+          content: "Sorry, there was an error processing your request. Please ensure Ollama is running at http://localhost:11434.",
           sender: 'ai',
           timestamp: new Date(),
         };
