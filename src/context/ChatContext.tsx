@@ -65,25 +65,23 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": "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",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            "model": model,
-            "messages": [
-              {
-                "role": "user",
-                "content": content
-              }
-            ]
-          })
-        });
+        const response = await const response = await fetch("http://localhost:11434/api/chat"||"http://192.168.1.4:11434/api/chat", {
+  method: "POST",
+  headers: {
+ // Optional. Site title for rankings on openrouter.ai.
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    "model": "llama3.2:1b",
+    "messages": [
+      {"role": "user", "content": content}
+    ],
+    "stream": false
+  })
+});
         
         const data = await response.json();
-        const responseText = data.choices[0].message.content || "Sorry, I couldn't process that request.";
+        const responseText = data.message.content || "Sorry, I couldn't process that request.";
         
         setTimeout(() => {
           const aiResponse: MessageType = {
