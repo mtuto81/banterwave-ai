@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 export type MessageType = {
@@ -65,20 +66,20 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
-        const response = await const response = await fetch("http://localhost:11434/api/chat"||"http://192.168.1.4:11434/api/chat", {
-  method: "POST",
-  headers: {
- // Optional. Site title for rankings on openrouter.ai.
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    "model": "llama3.2:1b",
-    "messages": [
-      {"role": "user", "content": content}
-    ],
-    "stream": false
-  })
-});
+        const response = await fetch("http://localhost:11434/api/chat" || "http://192.168.1.4:11434/api/chat", {
+          method: "POST",
+          headers: {
+            // Optional. Site title for rankings on openrouter.ai.
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "llama3.2:1b",
+            "messages": [
+              {"role": "user", "content": content}
+            ],
+            "stream": false
+          })
+        });
         
         const data = await response.json();
         const responseText = data.message.content || "Sorry, I couldn't process that request.";
