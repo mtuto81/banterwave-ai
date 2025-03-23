@@ -2,11 +2,8 @@
 import React from 'react';
 import { ChatProvider } from '@/context/ChatContext';
 import ChatInterface from '@/components/ChatInterface';
-import { useAuth } from '@/context/AuthContext';
 
 const Index: React.FC = () => {
-  const { user } = useAuth();
-  
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.015] z-[-1]"></div>

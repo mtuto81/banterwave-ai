@@ -1,6 +1,6 @@
 
-import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import React, { createContext, useContext, useState, useCallback } from 'react';
+
 export type MessageType = {
   id: string;
   content: string;
@@ -27,7 +27,7 @@ const AVAILABLE_MODELS: ModelType[] = [
     description: 'More powerful model with advanced reasoning capabilities'
   }
 ];
-const model = "mistralai/mistral-small-24b-instruct-2501:free"
+
 interface ChatContextType {
   messages: MessageType[];
   addMessage: (content: string, sender: 'user' | 'ai') => void;
@@ -66,7 +66,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (sender === 'user') {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:11434/api/chat" || "http://192.168.1.4:11434/api/chat", {
+        const response = await fetch("http://localhost:11434/api/chat", {
           method: "POST",
           headers: {
             // Optional. Site title for rankings on openrouter.ai.
